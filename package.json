@@ -1,0 +1,34 @@
+{
+  "name": "cordova-plugin-pager-huella",
+  "version": "1.0.0",
+  "description": "An Plugin to block screen with fingerprint or alternate security methods",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "http://pager.com <alex@pager.com>",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pagerinc/cordova-plugin-pager-huella"
+  },
+  "cordova": {
+    "id": "cordova-plugin-pager-huella",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "fingerprint",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": {
+    "cordovaDependencies": {
+      "2.0.0": {
+        "cordova": ">100"
+      }
+    }
+  }
+}
