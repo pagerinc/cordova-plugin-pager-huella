@@ -1,19 +1,3 @@
-/*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
-         http://www.apache.org/licenses/LICENSE-2.0
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
-*/
 package org.pager.cordova.huella;
 
 import java.util.TimeZone;
@@ -41,7 +25,7 @@ public class Huella extends CordovaPlugin {
     /**
      * Constructor.
      */
-    public Device() {
+    public Huella() {
     }
 
     /**
@@ -53,7 +37,7 @@ public class Huella extends CordovaPlugin {
      */
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-        Device.uuid = getUuid();
+        Huella.uuid = getUuid();
     }
 
     /**
@@ -65,19 +49,18 @@ public class Huella extends CordovaPlugin {
      * @return                  True if the action was valid, false if not.
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if ("getDeviceInfo".equals(action)) {
-            JSONObject r = new JSONObject();
-            r.put("uuid", Device.uuid);
-            r.put("version", this.getOSVersion());
-            r.put("platform", this.getPlatform());
-            r.put("model", this.getModel());
-            r.put("manufacturer", this.getManufacturer());
-	        r.put("isVirtual", this.isVirtual());
-            r.put("serial", this.getSerialNumber());
-            callbackContext.success(r);
+        if ("isAvailable".equals(action)) {
+          JSONObject r = new JSONObject();
+          r.put("uuid", Device.uuid);
+          r.put("serial", this.getSerialNumber());
+          callbackContext.success(r);
+        }
+        else if ("showUnlock".equals(action)) {
+          JSONObject r = new JSONObject();
+          callbackContext.success(r);
         }
         else {
-            return false;
+          return false;
         }
         return true;
     }
@@ -86,20 +69,6 @@ public class Huella extends CordovaPlugin {
     // LOCAL METHODS
     //--------------------------------------------------------------------------
 
-    /**
-     * Get the OS name.
-     *
-     * @return
-     */
-    public String getPlatform() {
-        String platform;
-        if (isAmazonDevice()) {
-            platform = AMAZON_PLATFORM;
-        } else {
-            platform = ANDROID_PLATFORM;
-        }
-        return platform;
-    }
 
     /**
      * Get the device's Universally Unique Identifier (UUID).
@@ -111,62 +80,10 @@ public class Huella extends CordovaPlugin {
         return uuid;
     }
 
-    public String getModel() {
-        String model = android.os.Build.MODEL;
-        return model;
-    }
-
-    public String getProductName() {
-        String productname = android.os.Build.PRODUCT;
-        return productname;
-    }
-
-    public String getManufacturer() {
-        String manufacturer = android.os.Build.MANUFACTURER;
-        return manufacturer;
-    }
 
     public String getSerialNumber() {
         String serial = android.os.Build.SERIAL;
         return serial;
-    }
-
-    /**
-     * Get the OS version.
-     *
-     * @return
-     */
-    public String getOSVersion() {
-        String osversion = android.os.Build.VERSION.RELEASE;
-        return osversion;
-    }
-
-    public String getSDKVersion() {
-        @SuppressWarnings("deprecation")
-        String sdkversion = android.os.Build.VERSION.SDK;
-        return sdkversion;
-    }
-
-    public String getTimeZoneID() {
-        TimeZone tz = TimeZone.getDefault();
-        return (tz.getID());
-    }
-
-    /**
-     * Function to check if the device is manufactured by Amazon
-     *
-     * @return
-     */
-    public boolean isAmazonDevice() {
-        if (android.os.Build.MANUFACTURER.equals(AMAZON_DEVICE)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isVirtual() {
-	return android.os.Build.FINGERPRINT.contains("generic") ||
-	    android.os.Build.PRODUCT.contains("sdk");
     }
 
 }
