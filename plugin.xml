@@ -41,6 +41,8 @@
         </config-file>
 
         <source-file src="src/android/Huella.java" target-dir="src/org/pager/cordova/huella" />
+        <source-file src="src/android/KeyguardAuth.java" target-dir="src/org/pager/cordova/huella" />
+        <source-file src="res/android/values/keyguardstrings.xml" target-dir="res/values" />
     </platform>
 
 </plugin>
