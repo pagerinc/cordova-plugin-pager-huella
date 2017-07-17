@@ -3,7 +3,6 @@ package org.pager.cordova.huella;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.pager.example.R;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -101,7 +100,7 @@ public class Huella extends CordovaPlugin {
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == KeyguardAuth.REQUEST_CODE) {
       if (resultCode == Activity.RESULT_OK) {
-        keyguardCallback.success(1);
+        keyguardCallback.success();
       } else if (resultCode == Activity.RESULT_CANCELED) {
         keyguardCallback.error(KeyguardAuth.ERROR.AUTH_FAILED.name());
       }
@@ -156,8 +155,8 @@ public class Huella extends CordovaPlugin {
    * @throws JSONException
    */
   private Intent intent(JSONObject jsonArgs) throws JSONException {
-    String title = string(jsonArgs, TITLE_KEY, R.string.default_title);
-    String description = string(jsonArgs, DESCRIPTION_KEY, R.string.default_description);
+    String title = string(jsonArgs, TITLE_KEY, "Please Authenticate");
+    String description = string(jsonArgs, DESCRIPTION_KEY, "Need validation to continue");
     return keyguardAuth.createAuthIntent(title, description);
   }
 
@@ -169,14 +168,14 @@ public class Huella extends CordovaPlugin {
    * @param resource resource of default string
    * @return non null string
    */
-  private String string(JSONObject args, String key, int resource) {
+  private String string(JSONObject args, String key, String defaultString) {
     if (args != null && args.has(key)) {
       try {
         return args.getString(key);
       } catch (JSONException e) {
-        return cordova.getActivity().getString(resource);
+        return defaultString;
       }
     }
-    return cordova.getActivity().getString(resource);
+    return defaultString;
   }
 }
