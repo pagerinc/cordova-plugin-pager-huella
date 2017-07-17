@@ -156,7 +156,7 @@ public class Huella extends CordovaPlugin {
    */
   private Intent intent(JSONObject jsonArgs) throws JSONException {
     String title = string(jsonArgs, TITLE_KEY, "Please Authenticate");
-    String description = string(jsonArgs, DESCRIPTION_KEY, "Need validation to continue");
+    String description = string(jsonArgs, DESCRIPTION_KEY, "For security measures, you have been logged out due to inactivity.");
     return keyguardAuth.createAuthIntent(title, description);
   }
 
